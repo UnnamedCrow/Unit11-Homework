@@ -4,6 +4,7 @@ using System.Text;
 using Telegram.Bot;
 using Unit11_Homework.Controllers;
 using Unit11_Homework.Configuration;
+using Unit11_Homework.Services;
 
 namespace Unit11_Homework
 {
@@ -30,6 +31,8 @@ namespace Unit11_Homework
             // Регистрируем конфигурацию
             AppSettings appSettings = BuildAppSettings();
             services.AddSingleton(BuildAppSettings());
+            // Регистрируем хранилище сессий
+            services.AddSingleton<IStorage, MemoryStorage>();
             // Регистрируем контроллеры
             services.AddTransient<DefaultMessageController>();
             services.AddTransient<TextMessageController>();
