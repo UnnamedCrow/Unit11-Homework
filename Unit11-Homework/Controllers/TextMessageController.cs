@@ -43,7 +43,8 @@ namespace Unit11_Homework.Controllers
                             await _telegramClient.SendTextMessageAsync(message.Chat.Id,$"Длина Вашего сообщения: {new Length(message.Text).GetLength()}" , cancellationToken: ct);
                             Console.WriteLine($"Вычисление длины сообщения для пользователя {message.Chat.Id}");
                             break;
-                        case "sum":
+                        case "sum":                           
+                            await _telegramClient.SendTextMessageAsync(message.Chat.Id, $"Сумма чисел: {new Sum(message.Text).GetSum()}", cancellationToken: ct);
                             Console.WriteLine($"Вычисление суммы пользователя {message.Chat.Id}");
                             break;
                     }
