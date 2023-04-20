@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using System.Text;
 using Telegram.Bot;
 using Unit11_Homework.Controllers;
+using Unit11_Homework.Configuration;
 
 namespace Unit11_Homework
 {
@@ -26,14 +27,25 @@ namespace Unit11_Homework
 
         static void ConfigureServices(IServiceCollection services)
         {
+            // Регистрируем конфигурацию
+            AppSettings appSettings = BuildAppSettings();
+            services.AddSingleton(BuildAppSettings());
             // Регистрируем контроллеры
             services.AddTransient<DefaultMessageController>();
             services.AddTransient<TextMessageController>();
             services.AddTransient<InlineKeyboardController>();
             // Регистрируем объект TelegramBotClient c токеном подключения
-            services.AddSingleton<ITelegramBotClient>(provider => new TelegramBotClient("6032287975:AAEWiSXyTFeNqNlnwKNI7Rm_bp92w0o3-_U"));
+            services.AddSingleton<ITelegramBotClient>(provider => new TelegramBotClient(appSettings.BotToken));
             // Регистрируем постоянно активный сервис бота
             services.AddHostedService<Bot>();
         }
+        static AppSettings BuildAppSettings()
+        {
+            return new AppSettings()
+            {
+                BotToken = "6032287975:AAEWiSXyTFeNqNlnwKNI7Rm_bp92w0o3-_U"
+            };
+        }
     }
+    
 }
